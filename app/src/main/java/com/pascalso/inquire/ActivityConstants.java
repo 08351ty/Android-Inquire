@@ -4,8 +4,8 @@ package com.pascalso.inquire;
  * Created by pso on 12/28/15.
  */
 public interface ActivityConstants {
-    public static final int MAIN_ACTIVITY = 1001;
-    public static final int ACCESS_GALLERY_ACTIVITY = 1002;
+    public static final int STUDENT_CAMERA = 1001;
+    public static final int GALLERY = 1002;
     public static final int PHOTO_INFO_FRAGMENT = 1003;
     public static final int RECEIVED_FRAGMENT = 1004;
     public static final int SELECTED_IMAGE_FRAGMENT = 1005;

@@ -134,9 +134,6 @@ public class SplashActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash);
         //ParseUser.logOut();
-        mVisible = true;
-        mControlsView = findViewById(R.id.fullscreen_content_controls);
-        mContentView = findViewById(R.id.fullscreen_content);
 
         getUserData();
 
@@ -244,7 +241,7 @@ public class SplashActivity extends AppCompatActivity {
                         }
                         compareDate();
                         //ParsePush.subscribeInBackground(username);
-                        startActivity(new Intent(SplashActivity.this, StudentCamera.class));
+                        startActivity(new Intent(SplashActivity.this, Student.class));
                         finish();
                     } else {
                         //Get data of all work

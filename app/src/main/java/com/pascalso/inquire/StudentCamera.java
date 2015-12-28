@@ -2,7 +2,12 @@ package com.pascalso.inquire;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Camera;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +20,12 @@ import android.widget.ImageButton;
 
 import com.parse.ParseUser;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -84,6 +95,14 @@ public class StudentCamera extends AppCompatActivity {
      */
 
     private Camera mCamera;
+    private CameraPreview mCameraPreview;
+    int width;
+    int height;
+    public String mCurrentPhotoPath;
+    private static final int MEDIA_TYPE_IMAGE = 1;
+    private static final int MEDIA_TYPE_VIDEO = 2;
+    private static Bitmap selectedimage;
+
     private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -97,9 +116,12 @@ public class StudentCamera extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_student_camera);
+        createCameraPreview();
         receivedClick();
+        galleryClick();
+        captureClick();
+
         /**
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
@@ -121,27 +143,46 @@ public class StudentCamera extends AppCompatActivity {
          */
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        //delayedHide(100);
-    }
-
     public void receivedClick(){
         ImageButton received = (ImageButton)findViewById(R.id.received);
-        received.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View arg0){
+        received.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
                 ParseUser user = ParseUser.getCurrentUser();
                 String identity = user.getString("usertype");
-                if(identity.equals("tutor")){
+                if (identity.equals("tutor")) {
                     finish();
-                }
-                else {
+                } else {
                     startActivity(new Intent(StudentCamera.this, Student.class));
+                }
+            }
+        });
+    }
+
+    private void galleryClick(){
+        ImageButton gallery = (ImageButton)findViewById(R.id.gallery);
+        gallery.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                startActivity(new Intent(StudentCamera.this, Gallery.class));
+            }
+        });
+    }
+
+    private void captureClick() {
+        ImageButton takepic = (ImageButton) findViewById(R.id.capture);
+        takepic.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException e) {
+
+                }
+                if (photoFile != null) {
+                    Camera.Parameters p = mCamera.getParameters();
+                    Camera.Size sizePicture = (getBiggestPictureSize(p));
+                    p.setPictureSize(sizePicture.width, sizePicture.height);
+                    mCamera.setParameters(p);
+                    mCamera.takePicture(null, null, mPicture);
                 }
             }
         });
@@ -173,6 +214,129 @@ public class StudentCamera extends AppCompatActivity {
             camera_preview.addView(mCameraPreview);
         }
         return mCameraPreview;
+    }
+
+    private Camera.Size getBiggestPictureSize(Camera.Parameters p) {
+        Camera.Size result = null;
+        for (Camera.Size size : p.getSupportedPictureSizes()) {
+            if (result == null) {
+                result = size;
+            } else {
+                int resultArea = result.width * result.height;
+                int newArea = size.width * size.height;
+                if (size.width <= 1920 && size.height <= 1080 && size.width > width && size.height > height) {
+                    result = size;
+                    width = size.width;
+                    height = size.height;
+                }
+            }
+        }
+        return result;
+    }
+
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        mCurrentPhotoPath = "file: " + image.getAbsolutePath();
+        return image;
+    }
+
+    private static File getOutputMediaFile(int type) {
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Quicksnap");
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("Quicksnap", "failed to create directory");
+                return null;
+            }
+        }
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE)
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
+        else if (type == MEDIA_TYPE_VIDEO)
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator + "VID_" + timeStamp + ".mp4");
+        else
+            return null;
+        return mediaFile;
+    }
+
+    private Camera.PictureCallback mPicture = new Camera.PictureCallback(){
+        public void onPictureTaken(byte [] data, Camera camera){
+            File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+            if(pictureFile == null){
+                Log.d("TAG", "Error creating picture file" /*+ e.getMessage()*/);
+                return;
+            }
+            try{
+                FileOutputStream fos = new FileOutputStream(pictureFile);
+                fos.write(data);
+                fos.close();
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES), "Quicksnap");
+                String imagePath = mediaStorageDir.getPath() + File.separator
+                        + "IMG_" + timeStamp + ".jpg";
+                StudentCamera.this.sendBroadcast(new Intent(
+                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri
+                        .parse("file://" + imagePath)));
+                selectedimage = BitmapFactory.decodeFile(imagePath);
+                Matrix matrix = new Matrix();
+                matrix.postRotate(90);
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(selectedimage,width,height,true);
+                Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap , 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+                setImage(rotatedBitmap);
+                Intent startSelectedImageFragment = new Intent(StudentCamera.this, SelectedImage.class);
+                startSelectedImageFragment.putExtra("calling-activity", ActivityConstants.STUDENT_CAMERA);
+                startActivity(startSelectedImageFragment);
+            }
+            catch (FileNotFoundException e){
+                Log.d("TAG", "File not found" + e.getMessage());
+            }
+            catch (IOException e){
+                Log.d("TAG", "Error accessing file" + e.getMessage());
+            }
+        }
+    };
+
+    public static Bitmap getImage(){
+        return selectedimage;
+    }
+
+    public void setImage(Bitmap image){
+        selectedimage = image;
+    }
+
+    protected void onStart(){
+        super.onStart();
+        //mCamera.autoFocus(null);
+    }
+
+    protected void onPause(){
+        super.onPause();
+        //mCamera.stopPreview();
+    }
+
+    protected void onResume(){
+        super.onResume();
+        //mCamera.startPreview();
+        //mCamera.autoFocus(null);
+    }
+
+    protected void onDestroy(){
+        super.onDestroy();
+    }
+
+    protected void onRestart(){
+        super.onRestart();
+        setContentView(R.layout.activity_student_camera);
+        createCameraPreview();
+        //mCamera.autoFocus(null);
+        captureClick();
+        galleryClick();
+        receivedClick();
     }
     /**
 

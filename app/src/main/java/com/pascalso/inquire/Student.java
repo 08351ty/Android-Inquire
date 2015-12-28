@@ -4,7 +4,7 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +20,8 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.github.clans.fab.FloatingActionMenu;
+import com.github.clans.fab.FloatingActionButton;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -55,6 +57,7 @@ public class Student extends AppCompatActivity
     private Handler handler = new Handler();
     private static String tutorId;
     public StudentListAdapter adapter;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +68,20 @@ public class Student extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton mCameraFab = (FloatingActionButton) findViewById(R.id.camera_fab);
+        mCameraFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                startActivity(new Intent(Student.this, Camera.class));
+                //startActivity(new Intent(Student.this, StudentCamera.class));
+            }
+        });
+
+        FloatingActionButton mGalleryFab = (FloatingActionButton) findViewById(R.id.gallery_fab);
+        mGalleryFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Student.this, Gallery.class));
             }
         });
 
@@ -146,6 +158,10 @@ public class Student extends AppCompatActivity
         } else if (id == R.id.nav_hf) {
 
         } else if (id == R.id.nav_logout) {
+            ParseUser.logOut();
+            Intent i = new Intent(Student.this, SplashActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
 
         }
 

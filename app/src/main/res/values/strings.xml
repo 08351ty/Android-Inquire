@@ -20,7 +20,7 @@
     <string name="prompt_username">Username</string>
     <string name="prompt_university">University</string>
     <string name="new_account">New account</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_in_short">Login</string>
     <string name="action_login">Login</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -35,4 +35,6 @@
     <string name="action_sign_in">Sign in or register</string>
 
     <string name="title_activity_selected_image">SelectedImage</string>
+    <string name="title_activity_test">test</string>
+    <string name="title_activity_blablabla">blablabla</string>
 </resources>

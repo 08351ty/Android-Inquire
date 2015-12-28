@@ -1,10 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
-    android:viewportHeight="24.0"
-    android:viewportWidth="24.0">
-    <path
-        android:fillColor="#FF000000"
-        android:pathData="M3,11.4615385 L8.29411765,11.4615385 L8.29411765,5 L3,5 L3,11.4615385 L3,11.4615385 Z M3,19 L8.29411765,19 L8.29411765,12.5384615 L3,12.5384615 L3,19 L3,19 Z M9.35294118,19 L14.6470588,19 L14.6470588,12.5384615 L9.35294118,12.5384615 L9.35294118,19 L9.35294118,19 Z M15.7058824,19 L21,19 L21,12.5384615 L15.7058824,12.5384615 L15.7058824,19 L15.7058824,19 Z M9.35294118,11.4615385 L14.6470588,11.4615385 L14.6470588,5 L9.35294118,5 L9.35294118,11.4615385 L9.35294118,11.4615385 Z M15.7058824,5 L15.7058824,11.4615385 L21,11.4615385 L21,5 L15.7058824,5 L15.7058824,5 Z"
-        />
+    android:width="14dp"
+    android:height="18dp"
+    android:viewportWidth="14"
+    android:viewportHeight="18">
+
+    <group
+        android:translateX="-21.000000"
+        android:translateY="-195.000000">
+        <group
+            android:translateX="-1.000000">
+            <group
+                android:translateX="17.000000"
+                android:translateY="192.000000">
+                <path
+                    android:strokeWidth="1"
+                    android:pathData="M 0 0 H 24 V 24 H 0 V 0 Z" />
+                <path
+                    android:fillColor="#FF000000"
+                    android:strokeWidth="1"
+                    android:pathData="M3,11.4615385 L8.29411765,11.4615385 L8.29411765,5 L3,5 L3,11.4615385
+L3,11.4615385 Z M3,19 L8.29411765,19 L8.29411765,12.5384615 L3,12.5384615 L3,19
+L3,19 Z M9.35294118,19 L14.6470588,19 L14.6470588,12.5384615
+L9.35294118,12.5384615 L9.35294118,19 L9.35294118,19 Z M15.7058824,19 L21,19
+L21,12.5384615 L15.7058824,12.5384615 L15.7058824,19 L15.7058824,19 Z
+M9.35294118,11.4615385 L14.6470588,11.4615385 L14.6470588,5 L9.35294118,5
+L9.35294118,11.4615385 L9.35294118,11.4615385 Z M15.7058824,5
+L15.7058824,11.4615385 L21,11.4615385 L21,5 L15.7058824,5 L15.7058824,5 Z" />
+            </group>
+        </group>
+    </group>
 </vector>

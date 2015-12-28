@@ -1,12 +1,23 @@
 package com.pascalso.inquire;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -83,28 +94,18 @@ public class SelectedImage extends AppCompatActivity {
         }
     };
 
+    private Bitmap selectedimage;
+    private String grade;
+    private String username;
+    private String curriculum;
+    private ParseFile file;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_selected_image);
+        drawImage();
 
-        mVisible = true;
-        mControlsView = findViewById(R.id.fullscreen_content_controls);
-        mContentView = findViewById(R.id.fullscreen_content);
-
-        // Set up the user interaction to manually show or hide the system UI.
-        mContentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggle();
-            }
-        });
-
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
     }
 
     @Override
@@ -114,8 +115,39 @@ public class SelectedImage extends AppCompatActivity {
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
-        delayedHide(100);
     }
+
+    private void drawImage(){
+        ImageView imageView = (ImageView) findViewById(R.id.selectedimage);
+        int callingActivity = getIntent().getIntExtra("calling-activity", 0);
+        switch (callingActivity){
+            case ActivityConstants.STUDENT_ACTIVITY:
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                imageView.setImageBitmap(Camera.getImage());
+                selectedimage = Camera.getImage();
+                break;
+            case ActivityConstants.GALLERY:
+                Bitmap image = Gallery.getImage();
+                if (image.getHeight() > image.getWidth()){
+                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                    imageView.setImageBitmap(image);
+                }
+                else {
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(90);
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(image, 1080, 1920, true);
+                    Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                    imageView.setImageBitmap(rotatedBitmap);
+                }
+                //imageView.setImageBitmap(AccessGalleryActivity.getImage());
+                selectedimage = Gallery.getImage();
+
+                break;
+        }
+    }
+
+
 
     private void toggle() {
         if (mVisible) {
@@ -131,7 +163,7 @@ public class SelectedImage extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
-        mControlsView.setVisibility(View.GONE);
+        //mControlsView.setVisibility(View.GONE);
         mVisible = false;
 
         // Schedule a runnable to remove the status and navigation bar after a delay
@@ -159,4 +191,35 @@ public class SelectedImage extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
+
+    /**
+    private void saveImageToParse(){
+        ParseUser user = ParseUser.getCurrentUser();
+        grade = user.get("grade").toString();
+        username = user.get("username").toString();
+        curriculum = user.get("curriculum").toString();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        selectedimage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] bytearray = stream.toByteArray();
+        if (bytearray != null) {
+            file = new ParseFile("picture.png", bytearray);
+            file.saveInBackground();
+        }
+        ParseObject x = new ParseObject("Questions");
+        x.put("mediatype", "image");
+        x.put("username", username);
+        x.put("subject", subject);
+        x.put("grade", grade);
+        x.put("curriculum", curriculum);
+        x.put("comment", answercomment);
+        x.put("ImageFile", file);
+        x.put("studentID", userID);
+        x.saveInBackground();
+        Toast.makeText(getApplicationContext(), "Your Image Has Been Sent!",
+                Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(SelectedImage.this, Student.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+    }
+     */
 }

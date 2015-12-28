@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pascalso.inquire">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <application
+        android:name=".Application"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".SplashActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/CameraTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Tutor"
+            android:label="@string/title_activity_tutor"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Student"
+            android:label="@string/title_activity_student"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".StudentCamera"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_student_camera"
+            android:theme="@style/CameraTheme" />
+
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="OlKO7GclrmS2MLdwK2Av7puo7T2LcS67w7BiI2ye" />
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="6PpmXqQlWrMlXHnwoJrhfZn7oRRebGTwzksyR4ej" />
+
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.BlueBackground" />
+        <activity
+            android:name=".UserVerification"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_user_verification" />
+        <activity
+            android:name=".NewUserActivity"
+            android:label="@string/title_activity_new_user" />
+        <activity android:name=".StudentPhoto" />
+        <activity android:name=".SubjectQuestions" />
+        <activity
+            android:name=".SelectedImage"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_selected_image"
+            android:theme="@style/FullscreenTheme"></activity>
+    </application>
+
+</manifest>

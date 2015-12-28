@@ -1,0 +1,50 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.pascalso.inquire.UserVerification">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+    <Button
+        android:id="@+id/new_account"
+        style="?android:textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="150dp"
+        android:text="@string/new_account"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/email_sign_in_button"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:text="Have an account? Login"
+            android:textColor="#c5ffffff"/>
+
+
+
+
+
+    </FrameLayout>
+
+
+</FrameLayout>

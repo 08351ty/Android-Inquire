@@ -2,15 +2,20 @@ package com.pascalso.inquire;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.hardware.Camera;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.parse.ParseUser;
+
+import java.util.List;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -77,6 +82,8 @@ public class StudentCamera extends AppCompatActivity {
      * system UI. This is to prevent the jarring behavior of controls going away
      * while interacting with activity UI.
      */
+
+    private Camera mCamera;
     private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -138,6 +145,34 @@ public class StudentCamera extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private Camera getCameraInstance() {
+        Camera camera= null;
+        try {
+            camera = Camera.open();
+            Camera.Parameters params = camera.getParameters();
+            List<Camera.Size> sizes = params.getSupportedPictureSizes();
+        } catch (Exception e) {
+            Log.d("ERROR", "Failed to get camera " + e.getMessage());
+        }
+        return camera;
+    }
+
+    private CameraPreview createCameraPreview(){
+        mCamera = getCameraInstance();
+        if(mCamera != null){
+            mCameraPreview = new CameraPreview(this, mCamera);
+            FrameLayout camera_preview = (FrameLayout) findViewById(R.id.camera_preview);
+            camera_preview.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    mCamera.autoFocus(null);
+                }
+            });
+            camera_preview.addView(mCameraPreview);
+        }
+        return mCameraPreview;
     }
     /**
 

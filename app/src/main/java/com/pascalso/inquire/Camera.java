@@ -34,8 +34,8 @@ public class Camera extends Activity {
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
-        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
+        //fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
+        //takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
@@ -43,10 +43,18 @@ public class Camera extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             if (resultCode == RESULT_OK) {
                 // Image captured and saved to fileUri specified in the Intent
+                Uri pickedImage = data.getData();
+                try {
+                    image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), pickedImage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 startActivity(new Intent(Camera.this, SelectedImage.class));
+                finish();
                 //Toast.makeText(this, "Image saved to:\n" +
                 //        data.getData(), Toast.LENGTH_LONG).show();
             } else if (resultCode == RESULT_CANCELED) {
@@ -64,7 +72,6 @@ public class Camera extends Activity {
     private static File getOutputMediaFile(int type){
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
-
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "Inquire");
         // This location works best if you want the created images to be shared

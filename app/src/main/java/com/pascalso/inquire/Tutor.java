@@ -127,4 +127,8 @@ public class Tutor extends AppCompatActivity
     public static String getChosenSubject(){
         return chosensubject;
     }
+
+    public static String[] getSubjects(){
+        return subjects;
+    }
 }

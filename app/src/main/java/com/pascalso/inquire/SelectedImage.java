@@ -118,6 +118,7 @@ public class SelectedImage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_image);
         drawImage();
+        sendClick();
 
     }
 
@@ -134,10 +135,10 @@ public class SelectedImage extends AppCompatActivity {
         ImageView imageView = (ImageView) findViewById(R.id.selectedimage);
         int callingActivity = getIntent().getIntExtra("calling-activity", 0);
         switch (callingActivity){
-            case ActivityConstants.STUDENT_ACTIVITY:
+            case ActivityConstants.STUDENT_CAMERA:
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 imageView.setImageBitmap(Camera.getImage());
-                selectedimage = Camera.getImage();
+                selectedimage = Bitmap.createScaledBitmap(Camera.getImage(), 2160, 3840, true);
                 break;
             case ActivityConstants.GALLERY:
                 Bitmap image = Gallery.getImage();
@@ -148,7 +149,7 @@ public class SelectedImage extends AppCompatActivity {
                 else {
                     Matrix matrix = new Matrix();
                     matrix.postRotate(90);
-                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(image, 1080, 1920, true);
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(image, 2160, 3840, true);
                     Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                     imageView.setImageBitmap(rotatedBitmap);

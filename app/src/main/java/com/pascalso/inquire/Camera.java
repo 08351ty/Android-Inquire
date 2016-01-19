@@ -26,41 +26,52 @@ public class Camera extends Activity {
     public static final int MEDIA_TYPE_IMAGE = 1;
     public String mCurrentPhotoPath;
     private Uri fileUri;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         dispatchTakePictureIntent();
     }
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
-        //takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
+    private void dispatchTakePictureIntent(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
+
+        // start the image capture Intent
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // Image captured and saved to fileUri specified in the Intent
-                Uri pickedImage = data.getData();
                 try {
-                    image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), pickedImage);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fileUri);
+                    Intent startSelectedImageFragment = new Intent(Camera.this, SelectedImage.class);
+                    startSelectedImageFragment.putExtra("calling-activity", ActivityConstants.STUDENT_CAMERA);
+                    startActivity(startSelectedImageFragment);
+                    finish();
                 }
-                startActivity(new Intent(Camera.this, SelectedImage.class));
+                catch(Exception e){
+                    finish();
+                }
+                /**
+                Toast.makeText(this, "Image saved to:\n" +
+                        data.getData(), Toast.LENGTH_LONG).show();
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                image = photo;
+                Intent startSelectedImageFragment = new Intent(Camera.this, SelectedImage.class);
+                startSelectedImageFragment.putExtra("calling-activity", ActivityConstants.STUDENT_CAMERA);
+                startActivity(startSelectedImageFragment);
                 finish();
-                //Toast.makeText(this, "Image saved to:\n" +
-                //        data.getData(), Toast.LENGTH_LONG).show();
+                 */
             } else if (resultCode == RESULT_CANCELED) {
+                finish();
                 // User cancelled the image capture
             } else {
-                Toast.makeText(this, "Couldn't capture image", Toast.LENGTH_LONG).show();
+                finish();
+                // Image capture failed, advise user
             }
         }
     }
@@ -69,9 +80,11 @@ public class Camera extends Activity {
         return Uri.fromFile(getOutputMediaFile(type));
     }
 
+    /** Create a File for saving an image or video */
     private static File getOutputMediaFile(int type){
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
+
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "Inquire");
         // This location works best if you want the created images to be shared
@@ -98,30 +111,7 @@ public class Camera extends Activity {
         return mediaFile;
     }
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "Inquire");
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
 
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
-        return image;
-    }
-
-    private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
-    }
 
     protected void onPause(){
         super.onPause();

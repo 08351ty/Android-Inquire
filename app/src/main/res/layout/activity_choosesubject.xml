@@ -11,6 +11,7 @@
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"
         android:padding="10dp"
+        android:layout_marginTop="10dp"
         style="@android:style/Widget.Holo.Light.Spinner"/>
 
     <EditText

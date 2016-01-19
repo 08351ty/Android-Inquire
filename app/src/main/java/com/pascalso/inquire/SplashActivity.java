@@ -52,6 +52,7 @@ public class SplashActivity extends AppCompatActivity {
     private int month;
     private int hour;
     private int minute;
+    private int year;
     private String username;
     private ParseFile photo;
     private String answered;
@@ -296,6 +297,7 @@ public class SplashActivity extends AppCompatActivity {
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         day = calendar.get(Calendar.DAY_OF_MONTH);
         month = calendar.get(Calendar.MONTH);
+        year = calendar.get(Calendar.YEAR);
         int x = 0;
         while (x < dates.size()){
             calendar.setTime(dates.get(x));
@@ -309,7 +311,16 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }
             else {
-                if(calendar.get(Calendar.MONTH) == month) {
+                if(calendar.get(Calendar.YEAR) != year) {
+                    int y = year - calendar.get(Calendar.YEAR);
+                    if (y == 1) {
+                        timecreated.add(y + " year ago");
+                    }
+                    else {
+                        timecreated.add(y + " years ago");
+                    }
+                }
+                else if(calendar.get(Calendar.MONTH) == month) {
                     if (calendar.get(Calendar.DAY_OF_MONTH) == day) {
                         int c = hour - calendar.get(Calendar.HOUR_OF_DAY);
                         if (c == 1) {

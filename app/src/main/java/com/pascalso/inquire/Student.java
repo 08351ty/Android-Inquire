@@ -82,6 +82,7 @@ public class Student extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Student.this, Gallery.class));
+                finish();
             }
         });
 
@@ -107,6 +108,18 @@ public class Student extends AppCompatActivity
         // specify an adapter
         mAdapter = new StudentListAdapter(this, subjects, timecreated, imgid, answered);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener(){
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        startActivity(new Intent(Student.this, StudentViewPhoto.class));
+                        selectedimage = photos.get(position);
+                        comment = comments.get(position);
+                        tutorId = tutorIds.get(position);
+                        answer = answered.get(position);
+                    }
+                })
+        );
     }
 
     @Override
@@ -131,14 +144,19 @@ public class Student extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(item.getItemId()){
+            case R.id.action_tutors:
+                startActivity(new Intent(Student.this, Chat.class));
+                return true;
+            case R.id.action_chat:
+                startActivity(new Intent(Student.this, Universities.class));
+                return true;
+            case R.id.action_settings:
+                startActivity(new Intent(Student.this, Settings.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -168,6 +186,14 @@ public class Student extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public static ParseFile getImage(){
+        return selectedimage;
+    }
+
+    public static String getComment(){
+        return comment;
     }
 
     private void getData(){

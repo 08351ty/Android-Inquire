@@ -82,22 +82,39 @@
             android:label="@string/title_activity_user_verification" />
         <activity
             android:name=".NewUserActivity"
-            android:label="@string/title_activity_new_user" />
+            android:label="@string/title_activity_new_user"
+            android:theme="@style/AppTheme.BlueBackground"/>
         <activity android:name=".StudentPhoto" />
         <activity android:name=".SubjectQuestions" />
         <activity
             android:name=".SelectedImage"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_selected_image"
-            android:theme="@style/CameraTheme"
-            android:parentActivityName=".Student">
+            android:parentActivityName=".Student"
+            android:theme="@style/CameraTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pascalso.inquire.Student" />
         </activity>
         <activity
-            android:name=".blablabla"
-            android:label="@string/title_activity_blablabla"
+            android:name=".Chat"
+            android:label="@string/title_activity_chat"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Settings"
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".StudentViewPhoto"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_student_view_photo"
+            android:theme="@style/CameraTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pascalso.inquire.Student" />
+        </activity>
+        <activity
+            android:name=".Universities"
+            android:label="@string/title_activity_universities"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

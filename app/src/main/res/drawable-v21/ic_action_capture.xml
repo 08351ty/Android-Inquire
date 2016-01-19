@@ -11,8 +11,17 @@
         <path
             android:fillColor="#D8D8D8"
             android:fillAlpha="0.7"
-            android:strokeColor="#4c4c4c"
-            android:strokeWidth="2"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="10"
+            android:pathData="M 180 518 C 196.568542495 518 210 531.431457505 210 548 C 210 564.568542495 196.568542495 578 180 578 C 163.431457505 578 150 564.568542495 150 548 C 150 531.431457505 163.431457505 518 180 518 Z" />
+        <path
+            android:strokeColor="#000000"
+            android:strokeWidth="1"
+            android:pathData="M 180 518 C 196.568542495 518 210 531.431457505 210 548 C 210 564.568542495 196.568542495 578 180 578 C 163.431457505 578 150 564.568542495 150 548 C 150 531.431457505 163.431457505 518 180 518 Z" />
+        <path
+            android:fillAlpha="0.7"
+            android:strokeColor="#000000"
+            android:strokeWidth="1"
             android:pathData="M 180 518 C 196.568542495 518 210 531.431457505 210 548 C 210 564.568542495 196.568542495 578 180 578 C 163.431457505 578 150 564.568542495 150 548 C 150 531.431457505 163.431457505 518 180 518 Z" />
     </group>
-    </vector>
+</vector>

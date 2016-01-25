@@ -118,7 +118,7 @@ public class SplashActivity extends AppCompatActivity {
      * Touch listener to use for in-layout UI controls to delay hiding the
      * system UI. This is to prevent the jarring behavior of controls going away
      * while interacting with activity UI.
-     */
+
     private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -128,12 +128,15 @@ public class SplashActivity extends AppCompatActivity {
             return false;
         }
     };
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splash);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         //ParseUser.logOut();
 
         getUserData();
@@ -143,6 +146,7 @@ public class SplashActivity extends AppCompatActivity {
         // while interacting with the UI.
     }
 
+    /**
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -152,6 +156,7 @@ public class SplashActivity extends AppCompatActivity {
         // are available.
         delayedHide(100);
     }
+    */
 
 
     private void hide() {
@@ -185,11 +190,12 @@ public class SplashActivity extends AppCompatActivity {
     /**
      * Schedules a call to hide() in [delay] milliseconds, canceling any
      * previously scheduled calls.
-     */
+
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
+     */
 
     private void getUserData(){
         new Handler().postDelayed(new Runnable() {

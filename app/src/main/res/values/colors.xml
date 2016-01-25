@@ -3,6 +3,7 @@
     <color name="colorPrimary">#5BC0EB</color>
     <color name="colorPrimaryDark">#4393B5</color>
     <color name="colorAccent">#5BC0EB</color>
-
     <color name="black_overlay">#66000000</color>
+    <color name="facebook">#43619C</color>
+    <color name="google">#ED3F32</color>
 </resources>

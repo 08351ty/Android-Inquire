@@ -51,9 +51,11 @@ public class SubjectQuestions extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject_questions);
         chosensubject = Tutor.getChosenSubject();
+        /**
         ActionBar actionBar = getActionBar();
         actionBar.setTitle(chosensubject);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+         */
         getData();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

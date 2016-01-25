@@ -6,6 +6,7 @@ import com.parse.CountCallback;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseFile;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
@@ -22,5 +23,6 @@ public class Application extends android.app.Application {
         //ParseObject.registerSubclass(Message.class);
         Parse.initialize(this);
         //ParseInstallation.getCurrentInstallation().saveInBackground();
+        ParseFacebookUtils.initialize(this);
     }
 }

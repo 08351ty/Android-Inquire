@@ -124,6 +124,27 @@ public class UserVerification extends AppCompatActivity {
         //delayedHide(100);
     }
 
+    private void facebookLogin() {
+        Button facebook = (Button) findViewById(R.id.facebook_login);
+        facebook.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+    /**
+    private void googleLogin() {
+        Button facebook = (Button) findViewById(R.id.google_login);
+        facebook.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+     */
+
     private void newAccount(){
         Button newaccount = (Button) findViewById(R.id.new_account);
         newaccount.setOnClickListener(new View.OnClickListener(){

@@ -1,19 +1,75 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="com.pascalso.inquire.UserVerification">
+    tools:context="com.pascalso.inquire.UserVerification"
+    android:orientation="vertical">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:padding="80dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_inquire_logo_text"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <Button
+            android:id="@+id/facebook_login"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/facebook"
+            android:background="@color/facebook"
+            android:textColor="#FFFFFF"
+            android:textStyle=""
+            android:paddingLeft="16dp"
+            android:drawablePadding="-38dp"
+            android:drawableStart="@drawable/ic_facebook_login"
+            android:drawableLeft="@drawable/ic_facebook_login"
+            />
+        <!--
+
+        <Button
+            android:id="@+id/google_login"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/google"
+            android:background="@color/google"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:paddingLeft="12dp"
+            android:drawablePadding="-32dp"
+            android:drawableStart="@drawable/ic_google_login"
+            android:drawableLeft="@drawable/ic_google_login"/>
+
+            -->
 
     <Button
         android:id="@+id/new_account"
@@ -24,11 +80,16 @@
         android:layout_marginLeft="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:text="@string/new_account"
         android:background="@color/colorPrimaryDark"
         android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+        android:textStyle=""
+        android:paddingLeft="12dp"
+        android:drawablePadding="-44dp"
+        android:drawableStart="@drawable/ic_action_newaccount"
+        android:drawableLeft="@drawable/ic_action_newaccount"/>
 
         <TextView
             android:id="@+id/login"
@@ -40,11 +101,6 @@
             android:text="Have an account? Login"
             android:textColor="#c5ffffff"/>
 
+    </LinearLayout>
 
-
-
-
-    </FrameLayout>
-
-
-</FrameLayout>
+</LinearLayout>
